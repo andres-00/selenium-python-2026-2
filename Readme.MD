@@ -109,3 +109,60 @@ https://www.imdb.com
 
 ### 🎯 Escenario:
 Buscar la película “Pulp fiction”, abrir el primer resultado y verificar que en la página se muestre correctamente la calificación (rating).
+
+## Ejecución multiplataforma
+
+Instala las dependencias desde la raíz del proyecto:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+El proyecto detecta primero Google Chrome y después Brave. También se pueden
+controlar el navegador y el driver mediante variables de entorno:
+
+- `BROWSER=chrome` o `BROWSER=brave` fuerza el navegador detectado.
+- `BROWSER_PATH` indica la ruta explícita al ejecutable del navegador.
+- `CHROMEDRIVER_PATH` indica la ruta explícita a ChromeDriver.
+- `HEADLESS=1` ejecuta sin ventana.
+- `NO_SANDBOX=1` añade las opciones necesarias en contenedores Linux.
+
+Ejemplos en Linux/macOS (bash):
+
+```bash
+BROWSER=brave HEADLESS=1 behave
+BROWSER_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" behave
+```
+
+En fish:
+
+```fish
+env BROWSER=chrome HEADLESS=1 behave
+env CHROMEDRIVER_PATH=/ruta/a/chromedriver behave
+```
+
+En Windows PowerShell:
+
+```powershell
+$env:BROWSER = "chrome"; $env:HEADLESS = "1"; behave
+$env:BROWSER_PATH = "C:\Program Files\Google\Chrome\Application\chrome.exe"; behave
+```
+
+En Windows CMD:
+
+```bat
+set BROWSER=chrome
+set HEADLESS=1
+behave
+```
+
+Si no se encuentra un ChromeDriver local válido, o no es compatible con el
+navegador, el proyecto muestra un warning y usa Selenium Manager para resolver
+automáticamente un driver compatible. El binario `chromedriver` no se versiona,
+por lo que cada equipo puede usar su propio ejecutable o este fallback.
+
+IMDb puede responder `403 Forbidden` en redes, navegadores o entornos de
+automatización con protección anti-bot. El escenario usa esperas explícitas,
+ventana grande, idioma `en-US` y no intenta evadir esa protección; si el bloqueo
+persiste, el escenario debe ejecutarse desde una red donde IMDb permita el
+acceso automatizado.

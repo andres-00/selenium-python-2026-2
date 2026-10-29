@@ -1,1 +1,6 @@
 *.exe
+chromedriver
+chromedriver.exe
+.venv/
+__pycache__/
+screenshots/

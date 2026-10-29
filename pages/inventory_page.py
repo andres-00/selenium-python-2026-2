@@ -12,4 +12,4 @@ class InventoryPage(BasePage):
         self.driver.find_element(By.XPATH, product_xpath).click()
 
     def get_cart_count(self):
-        return self.driver.find_element(By.CLASS_NAME, "shopping_cart_badge").text
+        return self.get_text((By.CLASS_NAME, "shopping_cart_badge"))
